@@ -11,7 +11,7 @@ const moments = [
 
 export function Problem() {
   return (
-    <section className="relative bg-muted/40 py-24 sm:py-32">
+    <section id="problem" className="relative bg-muted/40 py-24 sm:py-32">
       <div className="mx-auto max-w-4xl px-5 sm:px-8">
         <Reveal>
           <p className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold-deep">

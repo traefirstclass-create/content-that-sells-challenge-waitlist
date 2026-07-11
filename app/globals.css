@@ -135,3 +135,63 @@
     var(--gold-deep) 100%
   );
 }
+
+@utility noise-overlay {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    color-mix(in oklch, var(--foreground) 6%, transparent) 1px,
+    transparent 0
+  );
+  background-size: 4px 4px;
+}
+
+@layer utilities {
+  @keyframes gold-shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+  .animate-shimmer {
+    background-size: 200% auto;
+    animation: gold-shimmer 6s linear infinite;
+  }
+
+  @keyframes slow-zoom {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1.14);
+    }
+  }
+  .animate-slow-zoom {
+    animation: slow-zoom 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  .animate-float-soft {
+    animation: float-soft 6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slow-zoom,
+  .animate-shimmer,
+  .animate-float-soft {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

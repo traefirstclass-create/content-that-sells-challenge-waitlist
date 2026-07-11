@@ -30,7 +30,7 @@ export function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-500',
         scrolled
-          ? 'border-b border-border/60 bg-background/80 backdrop-blur-xl'
+          ? 'border-b border-border/60 bg-background/75 shadow-sm shadow-black/[0.03] backdrop-blur-xl backdrop-saturate-150'
           : 'border-b border-transparent bg-transparent',
       )}
     >
@@ -73,7 +73,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-border/60 bg-background/95 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-border/60 bg-background/90 backdrop-blur-xl backdrop-saturate-150 lg:hidden">
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4">
             {links.map((link) => (
               <a

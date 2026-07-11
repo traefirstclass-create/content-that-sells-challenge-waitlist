@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react'
 import { Reveal } from './reveal'
 import { CtaButton } from './cta-button'
+import { Counter } from './counter'
 
 const generalFeatures = [
   'Five Live Challenge Sessions',
@@ -48,12 +49,14 @@ export function Pricing() {
         <div className="mt-16 grid items-start gap-8 lg:grid-cols-2">
           {/* General Admission */}
           <Reveal>
-            <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-8 sm:p-10">
+            <div className="flex h-full flex-col rounded-3xl border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-[0_30px_70px_-40px_rgba(212,175,55,0.5)] sm:p-10">
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
                 General Admission
               </p>
               <div className="mt-5 flex items-baseline gap-1">
-                <span className="font-serif text-6xl font-semibold">$97</span>
+                <span className="font-serif text-6xl font-semibold">
+                  <Counter to={97} prefix="$" />
+                </span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">One-time enrollment</p>
 
@@ -86,7 +89,9 @@ export function Pricing() {
                 VIP Experience
               </p>
               <div className="relative mt-5 flex items-baseline gap-3">
-                <span className="font-serif text-6xl font-semibold text-gold-gradient">$197</span>
+                <span className="font-serif text-6xl font-semibold text-gold-gradient">
+                  <Counter to={197} prefix="$" />
+                </span>
                 <span className="text-xl text-white/40 line-through">$297</span>
               </div>
               <p className="relative mt-2 text-sm text-white/60">
@@ -121,7 +126,7 @@ export function Pricing() {
                 <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
                   <span className="font-semibold text-white">Total Value</span>
                   <span className="font-serif text-2xl font-semibold text-gold-gradient">
-                    $3,291
+                    <Counter to={3291} prefix="$" />
                   </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between">

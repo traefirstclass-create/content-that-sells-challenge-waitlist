@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/site/navbar'
+import { StickyCta } from '@/components/site/sticky-cta'
 import { Hero } from '@/components/site/hero'
 import { Problem } from '@/components/site/problem'
 import { Framework } from '@/components/site/framework'
@@ -30,6 +31,7 @@ export default function Page() {
       <Faq />
       <FinalCta />
       <Footer />
+      <StickyCta />
     </main>
   )
 }
