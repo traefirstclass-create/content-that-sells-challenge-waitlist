@@ -1,10 +1,19 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
-import { Check, Plus, Shirt, ShoppingBag, HardHat, Coffee, NotebookPen } from 'lucide-react'
+import {
+  Check,
+  Plus,
+  Shirt,
+  ShoppingBag,
+  HardHat,
+  Coffee,
+  NotebookPen,
+  BookOpenText,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Reveal } from './reveal'
+import { useCart } from './cart-context'
 
 const workbookFeatures = [
   'Guided note pages for every session',
@@ -50,8 +59,10 @@ function AddButton({
 }
 
 export function Upsell() {
-  const [workbookAdded, setWorkbookAdded] = useState(false)
-  const [merchAdded, setMerchAdded] = useState(false)
+  const { hasItem, toggleItem } = useCart()
+  const workbookAdded = hasItem('workbook')
+  const manualAdded = hasItem('paperback-manual')
+  const merchAdded = hasItem('merch')
 
   return (
     <section className="bg-background py-24 sm:py-32">
@@ -110,7 +121,7 @@ export function Upsell() {
                   <span className="font-serif text-4xl font-semibold">$47</span>
                   <span className="text-sm text-muted-foreground line-through">$79</span>
                 </div>
-                <AddButton added={workbookAdded} onClick={() => setWorkbookAdded((v) => !v)}>
+                <AddButton added={workbookAdded} onClick={() => toggleItem('workbook')}>
                   Add The Workbook
                 </AddButton>
               </div>
@@ -118,7 +129,42 @@ export function Upsell() {
           </div>
         </Reveal>
 
-        {/* Offer 2: Merch */}
+        {/* Offer 2: Paperback Implementation Manual */}
+        <Reveal>
+          <div className="mt-10 grid items-center gap-10 rounded-3xl border border-border bg-card p-8 lg:grid-cols-2 lg:p-12">
+            <div className="order-2 lg:order-1">
+              <span className="inline-block rounded-full border border-gold/40 bg-gold/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-gold-deep">
+                Ships After The Challenge
+              </span>
+              <h3 className="mt-4 font-serif text-3xl font-medium sm:text-4xl">
+                The Implementation Manual{' '}
+                <span className="block text-2xl text-muted-foreground sm:text-3xl">
+                  Paperback Edition
+                </span>
+              </h3>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Want it in your hands, not just on your screen? Get the printed paperback
+                edition of the Implementation Manual mailed to you as soon as you complete the
+                challenge—perfect for marking up, keeping on your desk, and referencing long
+                after Day Five.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-5">
+                <span className="font-serif text-4xl font-semibold">$12</span>
+                <AddButton added={manualAdded} onClick={() => toggleItem('paperback-manual')}>
+                  Add The Paperback
+                </AddButton>
+              </div>
+            </div>
+            <div className="relative order-1 mx-auto max-w-xs lg:order-2">
+              <div className="absolute -inset-6 -z-10 rounded-full bg-gold/10 blur-3xl" />
+              <div className="flex aspect-[3/4] w-full items-center justify-center rounded-2xl border border-dashed border-gold/30 bg-gold/5">
+                <BookOpenText className="size-16 text-gold-deep" />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Offer 3: Merch */}
         <Reveal>
           <div className="mt-10 rounded-3xl border border-border bg-card p-8 lg:p-12">
             <div className="text-center">
@@ -155,7 +201,7 @@ export function Upsell() {
                 <span className="font-serif text-4xl font-semibold">$129</span>
                 <span className="text-sm text-muted-foreground line-through">$166</span>
               </div>
-              <AddButton added={merchAdded} onClick={() => setMerchAdded((v) => !v)}>
+              <AddButton added={merchAdded} onClick={() => toggleItem('merch')}>
                 Add Merch To My Order
               </AddButton>
             </div>
