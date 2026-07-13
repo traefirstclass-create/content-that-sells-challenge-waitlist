@@ -18,7 +18,7 @@ export function About() {
               <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-gold/10 blur-2xl" />
               <div className="overflow-hidden rounded-[2rem] border border-border shadow-[0_40px_80px_-40px_rgba(0,0,0,0.5)]">
                 <Image
-                  src="/trae-firstclass.png"
+                  src="/about.png"
                   alt="Trae Firstclass, creator of the Content That Sells Challenge"
                   width={700}
                   height={900}
