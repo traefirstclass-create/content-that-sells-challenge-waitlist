@@ -70,7 +70,7 @@ export function Pricing() {
               </ul>
 
               <div className="mt-auto pt-10">
-                <CtaButton href="/thank-you" variant="outline" className="w-full">
+                <CtaButton href="/checkout?plan=general" variant="outline" className="w-full">
                   Join General Admission
                 </CtaButton>
               </div>
@@ -136,7 +136,7 @@ export function Pricing() {
               </div>
 
               <div className="relative mt-auto pt-8">
-                <CtaButton href="/thank-you" className="w-full">
+                <CtaButton href="/checkout?plan=vip" className="w-full">
                   Become VIP
                 </CtaButton>
               </div>

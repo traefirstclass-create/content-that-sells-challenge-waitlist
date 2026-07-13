@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { motion } from 'motion/react'
-import { CalendarPlus, Users, Play, Check, PartyPopper } from 'lucide-react'
+import { Users, Play, Check, PartyPopper } from 'lucide-react'
+import { AddToCalendar } from './add-to-calendar'
 
 const steps = [
   'Check your inbox for your confirmation email and login details.',
@@ -12,8 +13,7 @@ const steps = [
   'Show up live on Day One ready to recognize your content.',
 ]
 
-const calendarUrl =
-  'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Content+That+Sells+Challenge+-+Day+One&details=Live+5-Day+Challenge+with+Trae+Firstclass.+Learn+the+CAPTURE+Framework.'
+const communityUrl = 'https://www.facebook.com/share/g/1JV5d8hWjC/'
 
 export function ThankYouHero() {
   return (
@@ -79,17 +79,11 @@ export function ThankYouHero() {
 
         {/* Actions */}
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <AddToCalendar />
           <Link
-            href={calendarUrl}
+            href={communityUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold-gradient px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.1em] text-luxury-black transition-transform hover:-translate-y-0.5 sm:w-auto"
-          >
-            <CalendarPlus className="size-4" />
-            Add To Calendar
-          </Link>
-          <Link
-            href="#community"
             className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:border-gold hover:bg-white/5 sm:w-auto"
           >
             <Users className="size-4" />
@@ -113,7 +107,7 @@ export function ThankYouHero() {
         </motion.div>
 
         {/* Checklist */}
-        <div className="mt-14 text-left" id="community">
+        <div className="mt-14 text-left">
           <h2 className="text-center font-serif text-2xl sm:text-3xl">Your Next Steps</h2>
           <ul className="mx-auto mt-8 max-w-xl space-y-3">
             {steps.map((s, i) => (

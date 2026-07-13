@@ -7,7 +7,30 @@ export type Product = {
   physical: boolean
 }
 
+export const ADMISSION_PLANS = {
+  general: 'general-admission',
+  vip: 'vip-admission',
+} as const
+
+export type PlanKey = keyof typeof ADMISSION_PLANS
+
 export const PRODUCTS: Record<string, Product> = {
+  'general-admission': {
+    id: 'general-admission',
+    name: 'General Admission — Content That Sells™ Challenge',
+    description: 'Five live challenge sessions, daily replays, and community access.',
+    priceCents: 9700,
+    physical: false,
+  },
+  'vip-admission': {
+    id: 'vip-admission',
+    name: 'VIP Experience — Content That Sells™ Challenge',
+    description:
+      'Everything in General Admission, plus VIP coaching hours, personalized consulting, and priority support.',
+    priceCents: 19700,
+    compareAtCents: 29700,
+    physical: false,
+  },
   workbook: {
     id: 'workbook',
     name: 'The CAPTURE Framework™ Guided Workbook',

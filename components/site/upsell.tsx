@@ -69,18 +69,18 @@ export function Upsell() {
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <p className="text-center text-xs font-semibold uppercase tracking-[0.3em] text-gold-deep">
-            One-Time Offer
+            Add To Your Order
           </p>
         </Reveal>
         <Reveal delay={1}>
           <h2 className="mt-5 text-center font-serif text-3xl tracking-tight text-balance sm:text-5xl">
-            Complete Your Content That Sells™ Experience
+            Equip Yourself To Implement Everything You&apos;ll Learn
           </h2>
         </Reveal>
         <Reveal delay={2}>
           <p className="mx-auto mt-5 max-w-2xl text-center text-lg leading-relaxed text-muted-foreground">
-            You&apos;ve secured your seat. Now equip yourself to implement everything
-            you&apos;ll learn.
+            These are optional—add anything below and it&apos;ll be included in the same
+            checkout, one payment, right after this step.
           </p>
         </Reveal>
 
@@ -205,17 +205,6 @@ export function Upsell() {
                 Add Merch To My Order
               </AddButton>
             </div>
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <div className="mt-12 text-center">
-            <a
-              href="/"
-              className="text-sm font-medium text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
-            >
-              No thanks, take me to the challenge dashboard →
-            </a>
           </div>
         </Reveal>
       </div>

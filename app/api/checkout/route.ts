@@ -28,6 +28,12 @@ export async function POST(req: NextRequest) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? req.nextUrl.origin
   const needsShipping = products.some((p) => p.physical)
 
+  const planId = products.find((p) => p.id === 'general-admission' || p.id === 'vip-admission')
+    ?.id
+  const cancelUrl = planId
+    ? `${siteUrl}/checkout?plan=${planId === 'vip-admission' ? 'vip' : 'general'}`
+    : `${siteUrl}/`
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -42,8 +48,8 @@ export async function POST(req: NextRequest) {
       ...(needsShipping
         ? { shipping_address_collection: { allowed_countries: ['US', 'CA'] } }
         : {}),
-      success_url: `${siteUrl}/thank-you/order-confirmed?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/thank-you`,
+      success_url: `${siteUrl}/thank-you`,
+      cancel_url: cancelUrl,
     })
 
     if (!session.url) {

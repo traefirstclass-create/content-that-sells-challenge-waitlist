@@ -25,11 +25,11 @@ export function FinalCta() {
         </Reveal>
         <Reveal delay={2}>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <CtaButton href="/thank-you" className="w-full sm:w-auto">
+            <CtaButton href="/checkout?plan=general" className="w-full sm:w-auto">
               Reserve My Seat
             </CtaButton>
             <CtaButton
-              href="/thank-you"
+              href="/checkout?plan=vip"
               variant="outline"
               className="w-full border-white/20 text-white hover:border-gold hover:bg-white/5 sm:w-auto"
             >
