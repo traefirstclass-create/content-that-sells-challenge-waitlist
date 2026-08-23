@@ -42,7 +42,9 @@ export default function Page() {
         }),
       })
 
-      const result = await response.json()
+      const result = await response.json().catch(() => ({
+        error: 'The signup service is temporarily unavailable. Please try again.',
+      }))
 
       if (!response.ok) {
         throw new Error(result.error || 'Something went wrong. Please try again.')
@@ -175,7 +177,7 @@ export default function Page() {
                 <button
                   type="submit"
                   disabled={status === 'submitting'}
-                  className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#151515] px-4 font-semibold text-white transition hover:bg-[#2b2b2b] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#151515] px-4 py-3 text-center font-semibold leading-tight text-white transition hover:bg-[#2b2b2b] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === 'submitting' ? 'Saving...' : 'Join and get the downloads'}
                   <ArrowRight className="size-4" aria-hidden="true" />

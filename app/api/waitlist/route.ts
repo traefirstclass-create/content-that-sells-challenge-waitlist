@@ -37,19 +37,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 })
   }
 
-  const dataDir = path.join(process.cwd(), 'data')
+  const submission = {
+    name,
+    email,
+    business,
+    submittedAt: new Date().toISOString(),
+  }
+
+  const dataDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'data')
   const filePath = path.join(dataDir, 'waitlist-submissions.jsonl')
 
-  await mkdir(dataDir, { recursive: true })
-  await appendFile(
-    filePath,
-    `${JSON.stringify({
-      name,
-      email,
-      business,
-      submittedAt: new Date().toISOString(),
-    })}\n`,
-  )
+  try {
+    await mkdir(dataDir, { recursive: true })
+    await appendFile(filePath, `${JSON.stringify(submission)}\n`)
+  } catch (error) {
+    console.error('Waitlist local storage failed', error)
+  }
 
   return NextResponse.json({ ok: true })
 }
