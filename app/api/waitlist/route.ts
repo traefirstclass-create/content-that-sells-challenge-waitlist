@@ -80,20 +80,16 @@ export async function POST(request: Request) {
   const dataDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'data')
   const filePath = path.join(dataDir, 'waitlist-submissions.jsonl')
 
-  try {
-    const savedToGoogleSheets = await saveToGoogleSheets(submission)
+  await mkdir(dataDir, { recursive: true })
+  await appendFile(filePath, `${JSON.stringify(submission)}\n`)
 
-    if (!savedToGoogleSheets) {
-      await mkdir(dataDir, { recursive: true })
-      await appendFile(filePath, `${JSON.stringify(submission)}\n`)
-    }
+  let savedToGoogleSheets = false
+
+  try {
+    savedToGoogleSheets = await saveToGoogleSheets(submission)
   } catch (error) {
-    console.error('Waitlist storage failed', error)
-    return NextResponse.json(
-      { error: 'We could not save your signup. Please try again in a moment.' },
-      { status: 502 },
-    )
+    console.error('Google Sheets waitlist storage failed', error)
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, savedToGoogleSheets })
 }
