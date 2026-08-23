@@ -16,21 +16,21 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 })
 
-const siteUrl = 'https://contentthatsells.brandvisionpros.com'
+const siteUrl = 'https://content-that-sells-waitlist.brandvisionpros.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Content That Sells™ Challenge | Recognize The Content Already Inside Your Business',
+  title: 'Content That Sells Challenge Waitlist | Free Content Recognition Downloads',
   description:
-    'A live 5-Day Challenge with Trae Firstclass. Learn the proprietary CAPTURE Framework™ to transform your conversations, expertise, and everyday experiences into content that builds authority and generates sales.',
-  generator: 'v0.app',
+    'Join the Content That Sells Challenge waitlist and get the free Content Recognition Scorecard and Personalized Recognition Results Guide.',
+  generator: 'Codex',
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: 'Content That Sells™ Challenge',
+    title: 'Content That Sells Challenge Waitlist',
     description:
-      'Stop wondering what to post. Start recognizing the content that is already inside your business with the CAPTURE Framework™.',
+      'Get first access to the challenge plus two free Content Recognition downloads.',
     url: siteUrl,
     type: 'website',
     images: ['/challenge-graphic.png'],
