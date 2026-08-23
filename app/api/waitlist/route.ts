@@ -36,8 +36,14 @@ async function saveToGoogleSheets(submission: {
     body: JSON.stringify(submission),
   })
 
+  const responseText = await response.text()
+
   if (!response.ok) {
-    throw new Error(`Google Sheets webhook failed with status ${response.status}`)
+    throw new Error(`Google Sheets webhook failed with status ${response.status}: ${responseText.slice(0, 500)}`)
+  }
+
+  if (!responseText.includes('"ok":true') && !responseText.includes('ok')) {
+    console.warn('Unexpected Google Sheets webhook response', responseText.slice(0, 500))
   }
 
   return true
