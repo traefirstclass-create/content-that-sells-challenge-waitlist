@@ -1,33 +1,77 @@
-# content-that-sells-challenge
+# Content That Sells Challenge Waitlist
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Opt-in landing page for the Content That Sells Challenge waitlist. Visitors submit their name, email, and business/niche, then receive download links for the Content Recognition Scorecard and Personalized Recognition Results Guide.
 
-## Built with v0
-
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
-
-[Continue working on v0 →](https://v0.app/chat/projects/prj_lqv0LmGQI794b0J2LQG70AyNuKn3)
-
-## Getting Started
-
-First, run the development server:
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Google Sheets Waitlist Storage
 
-## Learn More
+The waitlist API sends submissions to Google Sheets when this environment variable is configured:
 
-To learn more, take a look at the following resources:
+```bash
+GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+If the variable is not set, local development submissions are saved to `data/waitlist-submissions.jsonl`.
+
+### Create The Google Sheet
+
+Create a Google Sheet with this header row:
+
+```text
+Submitted At | Name | Email | Business / Niche
+```
+
+### Add The Apps Script
+
+In the Google Sheet, go to **Extensions -> Apps Script** and paste this code:
+
+```js
+const SHEET_NAME = 'Sheet1'
+
+function doPost(event) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME)
+  const data = JSON.parse(event.postData.contents)
+
+  sheet.appendRow([
+    data.submittedAt || new Date().toISOString(),
+    data.name || '',
+    data.email || '',
+    data.business || '',
+  ])
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON)
+}
+```
+
+If your tab is not named `Sheet1`, update `SHEET_NAME`.
+
+### Deploy The Apps Script
+
+1. Click **Deploy -> New deployment**.
+2. Choose **Web app**.
+3. Set **Execute as** to **Me**.
+4. Set **Who has access** to **Anyone**.
+5. Click **Deploy**.
+6. Copy the Web app URL.
+
+### Add The Vercel Environment Variable
+
+In Vercel, open the waitlist project:
+
+1. Go to **Settings -> Environment Variables**.
+2. Add `GOOGLE_SHEETS_WEBHOOK_URL`.
+3. Paste the Apps Script Web app URL.
+4. Apply it to **Production**.
+5. Redeploy the latest deployment.
+
+After redeploying, new waitlist signups will append to the Google Sheet.

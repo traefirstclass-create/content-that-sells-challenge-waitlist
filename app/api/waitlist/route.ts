@@ -16,6 +16,33 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
+async function saveToGoogleSheets(submission: {
+  name: string
+  email: string
+  business: string
+  submittedAt: string
+}) {
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL
+
+  if (!webhookUrl) {
+    return false
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+    },
+    body: JSON.stringify(submission),
+  })
+
+  if (!response.ok) {
+    throw new Error(`Google Sheets webhook failed with status ${response.status}`)
+  }
+
+  return true
+}
+
 export async function POST(request: Request) {
   let payload: WaitlistPayload
 
@@ -48,10 +75,18 @@ export async function POST(request: Request) {
   const filePath = path.join(dataDir, 'waitlist-submissions.jsonl')
 
   try {
-    await mkdir(dataDir, { recursive: true })
-    await appendFile(filePath, `${JSON.stringify(submission)}\n`)
+    const savedToGoogleSheets = await saveToGoogleSheets(submission)
+
+    if (!savedToGoogleSheets) {
+      await mkdir(dataDir, { recursive: true })
+      await appendFile(filePath, `${JSON.stringify(submission)}\n`)
+    }
   } catch (error) {
-    console.error('Waitlist local storage failed', error)
+    console.error('Waitlist storage failed', error)
+    return NextResponse.json(
+      { error: 'We could not save your signup. Please try again in a moment.' },
+      { status: 502 },
+    )
   }
 
   return NextResponse.json({ ok: true })
