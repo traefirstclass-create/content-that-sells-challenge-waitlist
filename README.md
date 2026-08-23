@@ -31,13 +31,29 @@ Submitted At | Name | Email | Business / Niche
 
 ### Add The Apps Script
 
-In the Google Sheet, go to **Extensions -> Apps Script** and paste this code:
+In the Google Sheet, go to **Extensions -> Apps Script** and paste this code. Make sure `SHEET_NAME` matches the tab name at the bottom of the Google Sheet:
 
 ```js
-const SHEET_NAME = 'Sheet1'
+const SHEET_NAME = 'CTSCHALLENGEWAITLIST'
+
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true, message: 'Webhook is live' }))
+    .setMimeType(ContentService.MimeType.JSON)
+}
 
 function doPost(event) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME)
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  const sheet = spreadsheet.getSheetByName(SHEET_NAME)
+
+  if (!sheet) {
+    throw new Error(`Sheet tab not found: ${SHEET_NAME}`)
+  }
+
+  if (!event || !event.postData || !event.postData.contents) {
+    throw new Error('No POST data received')
+  }
+
   const data = JSON.parse(event.postData.contents)
 
   sheet.appendRow([
@@ -63,6 +79,8 @@ If your tab is not named `Sheet1`, update `SHEET_NAME`.
 4. Set **Who has access** to **Anyone**.
 5. Click **Deploy**.
 6. Copy the Web app URL.
+
+When you edit the Apps Script later, click **Deploy -> Manage deployments**, edit the Web App deployment, choose **New version**, then click **Deploy** again. Saving the script alone does not update the live `/exec` URL.
 
 ### Add The Vercel Environment Variable
 
