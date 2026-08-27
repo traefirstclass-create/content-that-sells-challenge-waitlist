@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { FormEvent, useState } from 'react'
 import { ArrowRight, Check, Download, FileText, Sparkles } from 'lucide-react'
+import { VisionStrategyUpsell } from '@/components/site/vision-strategy-upsell'
 
 const leadMagnets = [
   {
@@ -128,6 +129,8 @@ export default function Page() {
                     </a>
                   ))}
                 </div>
+
+                <VisionStrategyUpsell />
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
