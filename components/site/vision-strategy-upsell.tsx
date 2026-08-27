@@ -43,7 +43,7 @@ export function VisionStrategyUpsell() {
         Ready to take immediate, massive action?
       </h3>
       <p className="mt-3 text-sm leading-6 text-white/78">
-        Book a focused 30-minute Vision &amp; Strategy Call to align your creative goals with
+        Book a focused 60-minute Vision &amp; Strategy Call to align your creative goals with
         actionable strategies for growth—before the challenge even begins.
       </p>
 
