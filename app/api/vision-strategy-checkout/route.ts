@@ -9,18 +9,7 @@ export async function POST(req: NextRequest) {
   }
 
   const stripe = getStripeClient(secretKey)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? req.nextUrl.origin
-
-  if (req.nextUrl.searchParams.has('debug')) {
-    const raw = process.env.NEXT_PUBLIC_SITE_URL ?? null
-    return NextResponse.json({
-      raw,
-      rawLength: raw?.length ?? null,
-      rawCodes: raw ? Array.from(raw).map((c) => c.codePointAt(0)) : null,
-      siteUrl,
-      origin: req.nextUrl.origin,
-    })
-  }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || req.nextUrl.origin
 
   try {
     const session = await stripe.checkout.sessions.create({
