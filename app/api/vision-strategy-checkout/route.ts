@@ -11,15 +11,6 @@ export async function POST(req: NextRequest) {
   const stripe = getStripeClient(secretKey)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? req.nextUrl.origin
 
-  if (req.nextUrl.searchParams.has('debug')) {
-    return NextResponse.json({
-      keyLength: secretKey.length,
-      keyTrimmedLength: secretKey.trim().length,
-      keyPrefix: secretKey.slice(0, 8),
-      keyHasWhitespace: /\s/.test(secretKey),
-    })
-  }
-
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -48,12 +39,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Could not start checkout.'
-    const raw = (err as { raw?: { detail?: unknown } } | undefined)?.raw
-    const detail = raw?.detail
-    const detailInfo =
-      detail instanceof Error
-        ? { name: detail.name, message: detail.message, cause: String((detail as { cause?: unknown }).cause ?? '') }
-        : detail
-    return NextResponse.json({ error: message, debugDetail: detailInfo }, { status: 500 })
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
