@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import Stripe from 'stripe'
+import { getStripeClient } from '@/lib/stripe'
 import { VISION_STRATEGY_CALL, VISION_STRATEGY_BOOKING_URL } from '@/lib/vision-strategy'
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ async function verifyPayment(sessionId: string) {
   if (!secretKey) return false
 
   try {
-    const stripe = new Stripe(secretKey)
+    const stripe = getStripeClient(secretKey)
     const session = await stripe.checkout.sessions.retrieve(sessionId)
     return (
       session.payment_status === 'paid' &&

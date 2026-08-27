@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
+import { getStripeClient } from '@/lib/stripe'
 import { VISION_STRATEGY_CALL } from '@/lib/vision-strategy'
 
 export async function POST(req: NextRequest) {
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Stripe is not configured.' }, { status: 500 })
   }
 
-  const stripe = new Stripe(secretKey)
+  const stripe = getStripeClient(secretKey)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? req.nextUrl.origin
 
   try {
